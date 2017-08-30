@@ -13,67 +13,48 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mqshop.beans.CATEGORIES;
+import mqshop.beans.BRANDS;
 import mqshop.beans.USERS;
 import mqshop.utils.DBUtils;
 import mqshop.utils.MyUtils;
 import servlet.conn.connectDB;
 
-@WebServlet(urlPatterns= {"/category"})
-public class CategoryServlet extends HttpServlet{
+@WebServlet(urlPatterns= {"/brand"})
+public class BrandServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	
-	public CategoryServlet() {
+	public BrandServlet() {
 		super();
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Connection conn=MyUtils.getStoredConnection(request);
 		Connection conn=null;
-		//USERS loginedUser=null;
-		
-		try {
-			conn = connectDB.getConnection();
-		} catch (ClassNotFoundException e1) {
-			
-			System.out.println("Can not connect to Database!");
-			e1.printStackTrace();
-		}
-		
 		String errorString=null;
-		List<CATEGORIES> list=null;
 		try {
-			list=DBUtils.queryCategory(conn);
-			//System.out.println("Get query");
+			conn=connectDB.getConnection();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		List<BRANDS> list=null;
+		try {
+			list=DBUtils.queryBrand(conn);
 		} catch (SQLException e) {
-			System.out.println("In exception");
 			e.printStackTrace();
 			errorString=e.getMessage();
 		}
 		
-		//request.setAttribute("errorString", errorString);
-		request.setAttribute("categoryList", list);	
-		//request.setAttribute("user", user);
-		//MyUtils.checkLoginedUser(request, loginedUser);
+		request.setAttribute("listBrand", list);
 		
-		/*
-		if(MyUtils.checkLoginedUser(request, loginedUser)==false) {
-			response.sendRedirect(request.getContextPath()+"/login");
-			return;
-		}
-		*/
-		//Kiểm tra xem đã đăng nhập chưa. Nếu chưa trả về trang login, nếu rồi sẽ đi đến trang category.
 		HttpSession session=request.getSession();
 		USERS loginedUser=MyUtils.getstoreLoginedUser(session);
 		if(loginedUser==null) {
 			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}
+		
 		request.setAttribute("user", loginedUser);
 		
-		
-		RequestDispatcher dispatcher=this.getServletContext().getRequestDispatcher("/WEB-INF/Views/Category.jsp");
+		RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/Brand.jsp");
 		dispatcher.forward(request, response);
 	}
 	
@@ -81,5 +62,4 @@ public class CategoryServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request,response);
 	}
-	
 }

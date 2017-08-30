@@ -78,8 +78,8 @@ public class doLogin extends HttpServlet {
 		{
 			HttpSession session=request.getSession();
 			MyUtils.storeLoginedUser(session, user);
-			
-			
+			//request.setAttribute("loginedUser", user);
+			MyUtils.storeConnection(request, conn);
 			response.sendRedirect(request.getContextPath()+"/home");
 		}
 	}

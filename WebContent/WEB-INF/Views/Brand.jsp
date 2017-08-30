@@ -8,7 +8,7 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">DANH MỤC MÁY ẢNH</h1>
+                    <h1 class="page-header">NHÃN HIỆU MÁY ẢNH</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -18,18 +18,19 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Bảng danh mục sản phẩm
+                            Bảng nhãn hiệu sản phẩm
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         	<p style="color: red;">${errorString}</p>
-                        	<a href="/MQ-SHOP/createCategory">Thêm Danh Mục</a>
+                        	<a href="/MQ-SHOP/createBrand">Thêm nhãn Hiệu</a>
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
                                         
-                                        <th>TÊN DANH MỤC</th>
+                                        <th>TÊN NHÃN HIỆU</th>
                                         <th>MÔ TẢ</th>
+                                        <th>ẢNH NHÃN HIỆU</th>
                                         <th>NGÀY TẠO</th>
                                         <th>NGƯỜI TẠO</th>
                                         <th>NGÀY CẬP NHẬT</th>
@@ -41,17 +42,18 @@
                                 
                                 <tbody>
                                 
-                                <c:forEach items="${categoryList}" var="category">
-                                    <tr class="odd gradeX" id="row_${category.categoryID}">
+                                <c:forEach items="${brandList}" var="brand">
+                                    <tr class="odd gradeX" id="row_${brand.brandID}">
                                     
-                                        <td>${category.namecategory}</td>
-                                        <td>${category.descriptioncategory}</td>
-                                        <td>${category.createddate}</td>
-                                        <td>${category.createdby}</td>
-                                        <td>${category.updateddate}</td>
-                                        <td>${category.updatedby}</td>
-                                        <td><a href="editCategory?categoryID=${category.categoryID}"><button>Sửa</button></a></td>
-                                        <td><a href="deleteCategory?categoryID=${category.categoryID}"><button>Xóa</button></a></td>
+                                        <td>${brand.namebrand}</td>
+                                        <td>${brand.descriptionbrand}</td>   
+                                        <td>${brand.image}</td>                                    
+                                        <td>${brand.createddate}</td>
+                                        <td>${brand.createdby}</td>
+                                        <td>${brand.updateddate}</td>
+                                        <td>${brand.updatedby}</td>
+                                        <td><a href="editCategory?categoryID=${brand.brandID}"><button>Sửa</button></a></td>
+                                        <td><a href="deleteCategory?categoryID=${brand.brandID}"><button>Xóa</button></a></td>
                                        
                                         
                                     </tr>

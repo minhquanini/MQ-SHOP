@@ -6,8 +6,7 @@ public class CATEGORIES {
 	public int categoryID;
 	public String namecategory;
 	public String descriptioncategory;
-	public int displayorder;
-	public String imagecategory;
+	public double displayorder;
 	public Date createddate;
 	public String createdby;
 	public Date updateddate;
@@ -35,12 +34,6 @@ public class CATEGORIES {
 	public String getDescriptioncategory() {
 		return descriptioncategory;
 	}
-	public void setDisplayorder(int displayorder) {
-		this.displayorder = displayorder;
-	}
-	public int getDisplayorder() {
-		return displayorder;
-	}
 	public void setCreateddate(Date createddate) {
 		this.createddate = createddate;
 	}
@@ -52,12 +45,6 @@ public class CATEGORIES {
 	}
 	public String getCreatedby() {
 		return createdby;
-	}
-	public void setImagecategory(String imagecategory) {
-		this.imagecategory = imagecategory;
-	}
-	public String getImagecategory() {
-		return imagecategory;
 	}
 	public void setUpdateddate(Date updateddate) {
 		this.updateddate = updateddate;

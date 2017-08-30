@@ -25,12 +25,12 @@ public class MyUtils {
 	
 	//Lưu thông tin người dùng vào Session
 	public static void storeLoginedUser(HttpSession session,USERS loginedUser) {
-		session.setAttribute(ATT_NAME_USER_NAME, loginedUser);
+		session.setAttribute("loginedUser", loginedUser);
 	}
 	
 	//Lấy thông tin người dùng đã lưu vào Session
 	public static USERS getstoreLoginedUser(HttpSession session) {
-		USERS loginedUser=(USERS) session.getAttribute(ATT_NAME_USER_NAME);
+		USERS loginedUser=(USERS) session.getAttribute("loginedUser");
 		return loginedUser;
 	}
 	
