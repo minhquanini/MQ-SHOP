@@ -42,18 +42,19 @@
                                 
                                 <tbody>
                                 
-                                <c:forEach items="${brandList}" var="brand">
+                                <c:forEach items="${listBrand}" var="brand">
                                     <tr class="odd gradeX" id="row_${brand.brandID}">
                                     
                                         <td>${brand.namebrand}</td>
                                         <td>${brand.descriptionbrand}</td>   
-                                        <td>${brand.image}</td>                                    
+                                    <!-- 	<td>${brand.image}</td>     -->
+                                   		<td><img src="${brand.image}"></td>                   
                                         <td>${brand.createddate}</td>
                                         <td>${brand.createdby}</td>
                                         <td>${brand.updateddate}</td>
                                         <td>${brand.updatedby}</td>
-                                        <td><a href="editCategory?categoryID=${brand.brandID}"><button>Sửa</button></a></td>
-                                        <td><a href="deleteCategory?categoryID=${brand.brandID}"><button>Xóa</button></a></td>
+                                        <td><a href="editCategory?brandID=${brand.brandID}"><button>Sửa</button></a></td>
+                                        <td><a href="deleteCategory?brandID=${brand.brandID}"><button>Xóa</button></a></td>
                                        
                                         
                                     </tr>
