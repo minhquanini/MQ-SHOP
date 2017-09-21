@@ -12,37 +12,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import mqshop.beans.CATEGORIES;
+
 import mqshop.utils.DBUtils;
-import mqshop.utils.MyUtils;
 import servlet.conn.connectDB;
 
-@WebServlet(urlPatterns= {"/editCategory"})
-public class EditCategory extends HttpServlet{
+@WebServlet(urlPatterns= {"/deleteBrand"})
+public class doDeleteBrand extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	public EditCategory() {
+	public doDeleteBrand() {
 		super();
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Connection conn=MyUtils.getStoredConnection(request);
 		Connection conn=null;
-		
+		String errorString=null;
 		try {
 			conn=connectDB.getConnection();
-			//MyUtils.storeConnection(request, conn);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		int categoryid=Integer.parseInt(request.getParameter("categoryID"));
-		
-		CATEGORIES category=null;
-		String errorString =null;
+		int brandid=Integer.parseInt(request.getParameter("brandID"));
 		
 		try {
-			category=DBUtils.findCategory(conn, categoryid);
+			DBUtils.deleteBrand(conn, brandid);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorString=e.getMessage();
@@ -50,23 +44,17 @@ public class EditCategory extends HttpServlet{
 		
 		if(errorString!=null) {
 			request.setAttribute("errorString", errorString);
-			response.sendRedirect(request.getServletPath()+"/category");
-			return;
+			RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/Brand.jsp");
+			dispatcher.forward(request, response);
 		}
 		else
 		{
-		
-		request.setAttribute("category", category);
-		
-		RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/EditCategory.jsp");
-		dispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/brand");
 		}
-		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request,response);
+		doGet(request, response);
 	}
-
 }

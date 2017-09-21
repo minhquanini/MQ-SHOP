@@ -2,7 +2,7 @@ package mqshop.beans;
 
 import java.sql.Date;
 
-public class PRODUCTS {
+public class PRO_CA_BRA {
 	public int productID;
 	public String nameproduct;
 	public int categoryID;
@@ -19,10 +19,20 @@ public class PRODUCTS {
 	public String createdby;
 	public Date updateddate;
 	public String updatedby;
+	public String namecategory;
+	public String namebrand;
 	
-	public PRODUCTS() {
+	public PRO_CA_BRA() {
 	}
-	
+	/*
+	public PRO_CA_BRA(int productID,int categoryID,String namecategory,int brandID,String namebrand) {
+		this.productID=productID;
+		this.categoryID=categoryID;
+		this.namecategory=namecategory;
+		this.brandID=brandID;
+		this.namebrand=namebrand;
+	}
+	*/
 	public void setProductID(int productID) {
 		this.productID = productID;
 	}
@@ -118,5 +128,17 @@ public class PRODUCTS {
 	}
 	public String getUpdatedby() {
 		return updatedby;
+	}
+	public void setNamecategory(String namecategory) {
+		this.namecategory = namecategory;
+	}
+	public String getNamecategory() {
+		return namecategory;
+	}
+	public void setNamebrand(String namebrand) {
+		this.namebrand = namebrand;
+	}
+	public String getNamebrand() {
+		return namebrand;
 	}
 }

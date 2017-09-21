@@ -11,62 +11,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import mqshop.beans.CATEGORIES;
 import mqshop.utils.DBUtils;
-import mqshop.utils.MyUtils;
 import servlet.conn.connectDB;
-
-@WebServlet(urlPatterns= {"/editCategory"})
-public class EditCategory extends HttpServlet{
+@WebServlet(urlPatterns= {"/deleteProduct"})
+public class doDeleteProduct extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	public EditCategory() {
+	public doDeleteProduct() {
 		super();
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Connection conn=MyUtils.getStoredConnection(request);
 		Connection conn=null;
-		
+		String errorString=null;
 		try {
 			conn=connectDB.getConnection();
-			//MyUtils.storeConnection(request, conn);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		int categoryid=Integer.parseInt(request.getParameter("categoryID"));
-		
-		CATEGORIES category=null;
-		String errorString =null;
+		int productID=Integer.parseInt(request.getParameter("productID"));
 		
 		try {
-			category=DBUtils.findCategory(conn, categoryid);
+			DBUtils.deleteAttributeValue(conn, productID);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorString=e.getMessage();
 		}
-		
+		if(errorString==null) {
+			try {
+				DBUtils.deleteProduct(conn, productID);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			errorString="Không thể xóa!";
+		}
+		request.setAttribute("errorString", errorString);
 		if(errorString!=null) {
-			request.setAttribute("errorString", errorString);
-			response.sendRedirect(request.getServletPath()+"/category");
-			return;
+			RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/Product.jsp");
+			dispatcher.forward(request, response);
 		}
 		else
 		{
-		
-		request.setAttribute("category", category);
-		
-		RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/EditCategory.jsp");
-		dispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/product");
 		}
-		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request,response);
 	}
-
 }

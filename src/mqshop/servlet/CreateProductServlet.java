@@ -3,6 +3,7 @@ package mqshop.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,62 +12,47 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import mqshop.beans.ATTRIBUTES;
+import mqshop.beans.BRANDS;
 import mqshop.beans.CATEGORIES;
 import mqshop.utils.DBUtils;
-import mqshop.utils.MyUtils;
 import servlet.conn.connectDB;
 
-@WebServlet(urlPatterns= {"/editCategory"})
-public class EditCategory extends HttpServlet{
+@WebServlet(urlPatterns= {"/createProduct"})
+public class CreateProductServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	public EditCategory() {
+	public CreateProductServlet() {
 		super();
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Connection conn=MyUtils.getStoredConnection(request);
 		Connection conn=null;
 		
 		try {
 			conn=connectDB.getConnection();
-			//MyUtils.storeConnection(request, conn);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		int categoryid=Integer.parseInt(request.getParameter("categoryID"));
-		
-		CATEGORIES category=null;
-		String errorString =null;
-		
+		List<CATEGORIES> listcat=null;
+		List<BRANDS> listbrand=null;
+		List<ATTRIBUTES> listatt=null;
 		try {
-			category=DBUtils.findCategory(conn, categoryid);
+			listcat=DBUtils.queryCategory(conn);
+			listbrand=DBUtils.queryBrand(conn);
+			listatt=DBUtils.queryAttribute(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			errorString=e.getMessage();
 		}
-		
-		if(errorString!=null) {
-			request.setAttribute("errorString", errorString);
-			response.sendRedirect(request.getServletPath()+"/category");
-			return;
-		}
-		else
-		{
-		
-		request.setAttribute("category", category);
-		
-		RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/EditCategory.jsp");
+		request.setAttribute("listcat", listcat);
+		request.setAttribute("listbrand", listbrand);
+		request.setAttribute("listatt", listatt);
+		RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/CreateProduct.jsp");
 		dispatcher.forward(request, response);
-		}
-		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request,response);
 	}
-
 }

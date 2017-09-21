@@ -33,11 +33,12 @@
                                             <textarea class="form-control" name="descriptioncategory" rows="3" placeholder="Nhập vào mô tả của danh mục"></textarea>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Thêm</button>
-                                        <a href="/MQ-SHOP/category"><button class="btn btn-default">Hủy bỏ</button></a>
                                     </form>
-                                    
+                                      <a href="/MQ-SHOP/category"><button class="btn btn-default">Hủy bỏ</button></a>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
+                               
+                                     
                                 
                             </div>
                             <!-- /.row (nested) -->

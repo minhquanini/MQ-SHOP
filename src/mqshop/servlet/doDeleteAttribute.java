@@ -11,38 +11,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import mqshop.beans.CATEGORIES;
 import mqshop.utils.DBUtils;
-import mqshop.utils.MyUtils;
 import servlet.conn.connectDB;
 
-@WebServlet(urlPatterns= {"/editCategory"})
-public class EditCategory extends HttpServlet{
+@WebServlet(urlPatterns="/deleteAttribute")
+public class doDeleteAttribute extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	public EditCategory() {
+	public doDeleteAttribute() {
 		super();
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Connection conn=MyUtils.getStoredConnection(request);
 		Connection conn=null;
-		
+		String errorString=null;
 		try {
 			conn=connectDB.getConnection();
-			//MyUtils.storeConnection(request, conn);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		int categoryid=Integer.parseInt(request.getParameter("categoryID"));
-		
-		CATEGORIES category=null;
-		String errorString =null;
+		int attributeID=Integer.parseInt(request.getParameter("attributeID"));
 		
 		try {
-			category=DBUtils.findCategory(conn, categoryid);
+			DBUtils.deleteAttribute(conn, attributeID);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorString=e.getMessage();
@@ -50,16 +42,12 @@ public class EditCategory extends HttpServlet{
 		
 		if(errorString!=null) {
 			request.setAttribute("errorString", errorString);
-			response.sendRedirect(request.getServletPath()+"/category");
-			return;
+			RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/Attribute.jsp");
+			dispatcher.forward(request, response);
 		}
 		else
 		{
-		
-		request.setAttribute("category", category);
-		
-		RequestDispatcher dispatcher=request.getServletContext().getRequestDispatcher("/WEB-INF/Views/EditCategory.jsp");
-		dispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/attribute");
 		}
 		
 	}
@@ -68,5 +56,4 @@ public class EditCategory extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request,response);
 	}
-
 }

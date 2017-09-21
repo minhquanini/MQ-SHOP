@@ -21,7 +21,7 @@
     <link href="Contents/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="Contents/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="Contents/dist/css/sb-admin-2.css" type="text/css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
     <link href="Contents/vendor/morrisjs/morris.css" rel="stylesheet">

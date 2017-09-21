@@ -3,10 +3,10 @@
   <display-name>MQ-SHOP</display-name>
   <welcome-file-list>
     <welcome-file>home</welcome-file>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>Home.jsp</welcome-file>
   </welcome-file-list>
   
-  <!--  
+<!--  
   <servlet>
   	<servlet-name>login</servlet-name>
   	<servlet-class>mqshop.servlet.LoginServlet</servlet-class>
@@ -16,5 +16,6 @@
   	<servlet-name>login</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
-  -->
+-->
+
 </web-app>
