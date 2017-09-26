@@ -23,8 +23,16 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         	<p style="color: red;">${errorString}</p>
-                        	<a href="/MQ-SHOP/createBrand">Thêm nhãn Hiệu</a>
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        	<div class="col-lg-6">
+                        	<a href="/MQ-SHOP/createBrand"><button class="btn btn-success">Thêm nhãn hiệu</button></a>
+                        	</div>
+                        	<div class="col-lg-6">
+	                         <input type="text" id="myInput" onkeyup="myFunction()" class="form-control" placeholder="Nhập tên muốn tìm kiếm...." 
+	                         	style="
+							    margin-bottom: 10px;
+								">
+                           	 </div>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="myTable">
                                 <thead>
                                     <tr>
                                         
@@ -55,7 +63,7 @@
                                         <td width="90">${brand.updatedby}</td>
                                         <td>
                                         <a href="editBrand?brandID=${brand.brandID}"><button type="button" class="btn btn-primary btn-xs" text-align="left">Sửa</button></a>
-                                         | 
+                                          
                                         <a href="deleteBrand?brandID=${brand.brandID}"><button type="button" class="btn btn-danger btn-xs" text-align="right">Xóa</button></a>
                                       
                                         </td>
@@ -69,7 +77,25 @@
                                
                             </table>
                             <!-- /.table-responsive -->
-                            
+                            <script>
+								function myFunction() {
+								  var input, filter, table, tr, td, i;
+								  input = document.getElementById("myInput");
+								  filter = input.value.toUpperCase();
+								  table = document.getElementById("myTable");
+								  tr = table.getElementsByTagName("tr");
+								  for (i = 0; i < tr.length; i++) {
+								    td = tr[i].getElementsByTagName("td")[0];
+								    if (td) {
+								      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+								        tr[i].style.display = "";
+								      } else {
+								        tr[i].style.display = "none";
+								      }
+								    }       
+								  }
+								}
+								</script>
                         </div>
                         <!-- /.panel-body -->
                     </div>

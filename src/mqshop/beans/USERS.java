@@ -1,9 +1,10 @@
 package mqshop.beans;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class USERS {
-	public String userID;
+	public int userID;
 	public String username;
 	public String password;
 	public String fullname;
@@ -11,11 +12,12 @@ public class USERS {
 	public String phone;
 	public Date birthday;
 	public String address;
+	public int isadmin;
 	
-	public String getUserID() {
+	public int getUserID() {
 		return userID;
 	}
-	public void setUserID(String userID) {
+	public void setUserID(int userID) {
 		this.userID = userID;
 	}	
 	public String getUsername() {
@@ -59,5 +61,11 @@ public class USERS {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public void setIsadmin(int isadmin) {
+		this.isadmin = isadmin;
+	}
+	public int getIsadmin() {
+		return isadmin;
 	}
 }

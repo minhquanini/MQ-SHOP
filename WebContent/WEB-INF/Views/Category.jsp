@@ -23,8 +23,17 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         	<p style="color: red;">${errorString}</p>
-                        	<a href="/MQ-SHOP/createCategory">Thêm Danh Mục</a>
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        	<div class="col-lg-6">
+                        	<a href="/MQ-SHOP/createCategory"><button class="btn btn-success">Thêm danh mục</button></a>
+                        	</div>
+                        	<div class="col-lg-6">
+	                         <input type="text" id="myInput" onkeyup="myFunction()" class="form-control" placeholder="Nhập tên muốn tìm kiếm...." 
+	                         	style="
+							    margin-bottom: 10px;
+								">
+                           	 </div>
+                            
+                            <table width="100%" id="myTable" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         
@@ -34,8 +43,7 @@
                                         <th>NGƯỜI TẠO</th>
                                         <th>NGÀY CẬP NHẬT</th>
                                         <th>NGƯỜI CẬP NHẬT</th>
-                                        <th>SỬA</th>
-                                        <th>XÓA</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 
@@ -50,19 +58,41 @@
                                         <td>${category.createdby}</td>
                                         <td>${category.updateddate}</td>
                                         <td>${category.updatedby}</td>
-                                        <td><a href="editCategory?categoryID=${category.categoryID}"><button>Sửa</button></a></td>
-                                        <td><a href="deleteCategory?categoryID=${category.categoryID}"><button>Xóa</button></a></td>
+                                        <td>
+                                        <a href="editCategory?categoryID=${category.categoryID}"><button class="btn btn-primary btn-xs">Sửa</button></a>
+                                        
+                                        <a href="deleteCategory?categoryID=${category.categoryID}"><button class="btn btn-danger btn-xs">Xóa</button></a>
+                                        </td>
                                        
                                         
                                     </tr>
  								 </c:forEach>
  								 
+							
  								  
                                 </tbody>
                                
                             </table>
                             <!-- /.table-responsive -->
-                            
+                            <script>
+								function myFunction() {
+								  var input, filter, table, tr, td, i;
+								  input = document.getElementById("myInput");
+								  filter = input.value.toUpperCase();
+								  table = document.getElementById("myTable");
+								  tr = table.getElementsByTagName("tr");
+								  for (i = 0; i < tr.length; i++) {
+								    td = tr[i].getElementsByTagName("td")[0];
+								    if (td) {
+								      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+								        tr[i].style.display = "";
+								      } else {
+								        tr[i].style.display = "none";
+								      }
+								    }       
+								  }
+								}
+								</script>
                         </div>
                         <!-- /.panel-body -->
                     </div>

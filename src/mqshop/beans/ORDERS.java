@@ -14,7 +14,7 @@ public class ORDERS {
 	public double ordertotal;
 	public String paymentmethod;
 	public int orderstatus;
-	public String userID;
+	public int userID;
 	public int paymentstatus;
 	
 	public ORDERS() {
@@ -85,10 +85,10 @@ public class ORDERS {
 	public int getOrderstatus() {
 		return orderstatus;
 	}
-	public void setUserID(String userID) {
+	public void setUserID(int userID) {
 		this.userID = userID;
 	}
-	public String getUserID() {
+	public int getUserID() {
 		return userID;
 	}
 	public void setPaymentstatus(int paymentstatus) {

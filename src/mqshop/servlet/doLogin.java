@@ -63,12 +63,12 @@ public class doLogin extends HttpServlet {
 		}
 		
 		if(hasError) {
-			user=new USERS();
-			user.setUsername(username);
-			user.setPassword(password);
+			USERS user1=new USERS();
+			user1.setUsername(username);
+			user1.setPassword(password);
 			
 			request.setAttribute("errorString", errorString);
-			request.setAttribute("user", user);
+			request.setAttribute("user1", user1);
 			
 			RequestDispatcher dispatcher=this.getServletContext().getRequestDispatcher("/WEB-INF/Views/login.jsp");
 			dispatcher.forward(request, response);

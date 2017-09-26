@@ -16,6 +16,8 @@ import mqshop.beans.ATTRIBUTE_VALUES;
 import mqshop.beans.ATTRIBUTE_VALUES_MODEL;
 import mqshop.beans.BRANDS;
 import mqshop.beans.CATEGORIES;
+import mqshop.beans.FEEDBACKS;
+import mqshop.beans.ORDERS;
 import mqshop.beans.PRODUCTS;
 import mqshop.beans.PRO_CA_BRA;
 import mqshop.beans.USERS;
@@ -24,20 +26,62 @@ import servlet.conn.connectDB;
 public class DBUtils {
 	//Sử dụng cho đăng nhập
 	public static USERS findUser(Connection conn,String username,String password) throws SQLException {
-		String sql="SELECT u.username, u.password FROM USERS u "+"WHERE u.username=? and u.password=?";
+		String sql="SELECT * FROM USERS WHERE username=? and password=?";
 		PreparedStatement pstm=conn.prepareStatement(sql);
 		pstm.setString(1, username);
 		pstm.setString(2, password);
-		ResultSet rs=pstm.executeQuery();
-		
-		while(rs.next()) {
-			USERS user=new USERS();
+		ResultSet rs=pstm.executeQuery();		
+		while(rs.next()) {	
+			int userID=Integer.parseInt(rs.getString("userID"));
+			String fullname=rs.getString("fullname");
+			String email=rs.getString("email");
+			String phone=rs.getString("phone");
+			Date birthday=rs.getDate("birthday");
+			String address=rs.getString("address");
+			USERS user=new USERS();			
+			user.setUserID(userID);
 			user.setUsername(username);
 			user.setPassword(password);
+			user.setFullname(fullname);
+			user.setEmail(email);
+			user.setPhone(phone);
+			user.setBirthday(birthday);
+			user.setAddress(address);
+			
 			return user;
 		}
 		return null;
 	}
+	
+	public static List<USERS> queryUser(Connection conn) throws SQLException {
+		String sql="SELECT * FROM USERS";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rs=pstm.executeQuery();
+		List<USERS> list=new ArrayList<USERS>();
+		while(rs.next()) {
+			int userID=Integer.parseInt(rs.getString("userID"));
+			String username=rs.getString("username");
+			String fullname=rs.getString("fullname");
+			String email=rs.getString("email");
+			String phone=rs.getString("phone");
+			Date birthday=rs.getDate("birthday");
+			String address=rs.getString("address");
+			int isadmin=Integer.parseInt(rs.getString("isadmin"));
+			USERS user=new USERS();
+			user.setUserID(userID);
+			user.setUsername(username);
+			user.setFullname(fullname);
+			user.setEmail(email);
+			user.setPhone(phone);
+			user.setBirthday(birthday);
+			user.setAddress(address);
+			user.setIsadmin(isadmin);
+			list.add(user);
+		}
+		return list;
+	}
+	
+	
 	//dành cho Category
 	public static List<CATEGORIES> queryCategory(Connection conn) throws SQLException{
 		String sql="SELECT * FROM CATEGORIES";
@@ -335,6 +379,21 @@ public class DBUtils {
 		return list;
 	}
 	
+	public static void insertAdmin(Connection conn,USERS admin) throws SQLException {
+		String sql="INSERT INTO USERS(username,password,fullname,email,phone,birthday,address,isadmin) VALUES(?,?,?,?,?,?,?,?)";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1, admin.getUsername());
+		pstm.setString(2, admin.getPassword());
+		pstm.setString(3, admin.getFullname());
+		pstm.setString(4, admin.getEmail());
+		pstm.setString(5, admin.getPhone());
+		//pstm.setDate(6, admin.getBirthday());
+		pstm.setDate(6, admin.getBirthday());
+		pstm.setString(7, admin.getAddress());
+		pstm.setInt(8, 1);
+		pstm.executeUpdate();
+	}
+	
 	public static void insertBrand(Connection conn,BRANDS brand) throws SQLException {
 		String sql="INSERT INTO BRANDS(namebrand,descriptionbrand,image,createddate,createdby) VALUES(?,?,?,?,?)";
 		PreparedStatement pstm=conn.prepareStatement(sql);
@@ -391,6 +450,49 @@ public class DBUtils {
 			product.setContentproduct(rs.getString("contentproduct"));
 			
 			list.add(product);
+		}
+		return list;
+	}
+	
+	public static List<ORDERS> queryOrder(Connection conn) throws SQLException{
+		String sql="SELECT * FROM ORDERS";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rs=pstm.executeQuery();
+		List<ORDERS> list=new ArrayList<ORDERS>();
+		while(rs.next()) {
+			ORDERS order=new ORDERS();
+			order.setOrderID(rs.getInt("orderID"));
+			order.setCustomername(rs.getString("customername"));
+			order.setCustomeremail(rs.getString("customeremail"));
+			order.setCustomerphone(rs.getString("phone"));
+			order.setCustomeraddress(rs.getString("customeraddress"));
+			order.setCustomermessage(rs.getString("customermessage"));
+			order.setCreateddate(rs.getDate("createddate"));
+			order.setCreatedby(rs.getString("createdby"));
+			order.setPaymentmethod(rs.getString("paymentmethod"));
+			order.setOrderstatus(rs.getInt("orderstatus"));
+			order.setOrdertotal(rs.getDouble("ordertotal"));
+			order.setOrderID(rs.getInt("userID"));
+			list.add(order);	
+		}
+		return list;
+		
+	}
+	
+	public static List<FEEDBACKS> queryFeedback(Connection conn) throws SQLException{
+		String sql="SELECT * FROM FEEDBACKS";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rs=pstm.executeQuery();
+		List<FEEDBACKS> list=new ArrayList<FEEDBACKS>();
+		while(rs.next()) {
+			FEEDBACKS feedback =new FEEDBACKS();
+			feedback.setFeedbackID(rs.getInt("feedbackID"));
+			feedback.setNamefb(rs.getString("namefb"));
+			feedback.setEmailfb(rs.getString("emailfb"));
+			feedback.setContentfb(rs.getString("contentfb"));
+			feedback.setCreateddate(rs.getDate("createddate"));
+			feedback.setCreatedby(rs.getString("createdby"));
+			list.add(feedback);
 		}
 		return list;
 	}

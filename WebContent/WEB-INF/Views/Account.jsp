@@ -8,7 +8,7 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">DANH SÁCH SẢN PHẨM</h1>
+                    <h1 class="page-header">DANH SÁCH TÀI KHOẢN</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -18,13 +18,13 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Bảng danh sách sản phẩm
+                            Bảng danh sách tài khoản
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         	<p style="color: red;">${errorString}</p>
                         	<div class="col-lg-6">
-                        	<a href="/MQ-SHOP/createProduct"><button class="btn btn-success">Thêm sản phẩm</button></a>
+                        	<a href="/MQ-SHOP/createAdmin"><button class="btn btn-success">Thêm Admin</button></a>
                         	</div>
                         	<div class="col-lg-6">
 	                         <input type="text" id="myInput" onkeyup="myFunction()" class="form-control" placeholder="Nhập tên muốn tìm kiếm...." 
@@ -32,48 +32,41 @@
 							    margin-bottom: 10px;
 								">
                            	 </div>
-                            <table width="100%" id="myTable" class="table table-striped table-bordered table-hover">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="myTable">
                                 <thead>
                                     <tr>
                                         
-                                        <th>TÊN SẢN PHẨM</th>
-                                        <th>DANH MỤC</th>
-                                        <th>NHÃN HIỆU</th>
-                                        <th>ẢNH</th>
-                                        <th>GIÁ NHẬP</th>
-                                        <th>GIÁ BÁN</th>
-                                        <th>GIÁ KHUYẾN MÃI</th>
-                                        <th>SỐ LƯỢNG</th>
-                                        <th>BẢO HÀNH</th>
-                                        <th>MÔ TẢ</th>
+                                        <th>TÊN TÀI KHOẢN</th>
+                                        <th>HỌ VÀ TÊN</th>
+                                        <th>EMAIL</th>
+                                        <th>SỐ ĐIỆN THOẠI</th>
+                                        <th>NGÀY SINH</th>
+                                        <th>ĐỊA CHỈ</th>
+                                        <th>QUYỀN</th>
                                         <th></th>
-                                     <!--    <th>MÔ TẢ CHI TIẾT</th>--> 
+                                        
                                     </tr>
                                 </thead>
                                 
                                 <tbody>
                                 
-                                <c:forEach items="${listpca}" var="listpca">
-                                    <tr class="odd gradeX" id="row_${listpca.productID}">
+                                <c:forEach items="${listuser}" var="listuser">
+                                    <tr class="odd gradeX" id="row_${listuser.userID}">
                                     
-                                        <td width="100">${listpca.nameproduct}</td>
-                                        <td>${listpca.namecategory}</td>
-                                        <td>${listpca.namebrand}</td>
-                                        <td><img src="${listpca.imageproduct}" width="100" height="100"></td>   
-                                        <td>${listpca.originalprice}</td>
-                                        <td>${listpca.price}</td>
-                                        <td width="60">${listpca.promotionprice}</td>
-                                        <td width="60">${listpca.quantity}</td>
-                                        <td width="60">${listpca.warranty}</td>
-                                        <td>${listpca.descriptionproduct}</td>
-                                      <!--    <td>${product.contentproduct}</td>  -->
-                                        <td>
-                                        <a href="editProduct?productID=${listpca.productID}"><button type="button" class="btn btn-primary btn-xs" text-align="left">Sửa</button></a>
-                                         <br> 
-                                         <br>
-                                        <a href="deleteProduct?productID=${listpca.productID}"><button type="button" class="btn btn-danger btn-xs" text-align="right">Xóa</button></a>
-                                      
+                                        <td>${listuser.username}</td> 
+                                        <td>${listuser.fullname}</td>  
+                                        <td>${listuser.email}</td>  
+                                        <td>${listuser.phone}</td>  
+                                        <td>${listuser.birthday}</td>  
+                                        <td>${listuser.address}</td> 
+                                        <c:choose>
+                                        	<c:when test="${listuser.isadmin == 1 }"> <td>Admin</td></c:when>
+                                        	<c:otherwise><td>Khách hàng</td></c:otherwise>
+                                        </c:choose>  
+                                        <td>   
+                                        <a href="deleteUser?userID=${listuser.userID}"><button type="button" class="btn btn-danger btn-md">Xóa</button></a>
                                         </td>
+                                       
                                         
                                     </tr>
  								 </c:forEach>

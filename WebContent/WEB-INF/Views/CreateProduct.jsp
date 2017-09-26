@@ -48,10 +48,7 @@
                                             </c:forEach>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Hình Ảnh Cho Sản Phẩm</label>
-                                            <input type="file" name="image">
-                                        </div>
+                                        
                                         <div class="form-group">
                                             <label>Giá Nhập Sản Phẩm</label>
                                             <input class="form-control" name="originalprice" placeholder="Nhập vào giá nhập của sản phẩm"></input>
@@ -80,6 +77,7 @@
                                             <label>Nội Dung Giới Thiệu Sản Phẩm</label>
                                             <textarea class="form-control" name="contentproduct" rows="4" placeholder="Nhập vào nội dung giới thiệu sản phẩm"></textarea>
                                         </div>
+                                        
                                         </div>
                                         <div class="col-lg-6">
                                         <c:forEach items="${listatt}" var="listatt">
@@ -89,6 +87,10 @@
                                         	<input class="form-control" name="value" placeholder="Nhập vào ${listatt.nameattribute}"></input>
                                         </div>
                                         </c:forEach>
+                                        <div class="form-group">
+                                            <label>Hình Ảnh Cho Sản Phẩm</label>
+                                            <input type="file" name="image">
+                                        </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Thêm</button>
                                        
