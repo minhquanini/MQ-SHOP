@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <%@page import="java.text.DecimalFormat" %>
+ <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="import_top.jsp"></jsp:include>
 <jsp:include page="top_menu.jsp"></jsp:include>
@@ -40,13 +42,13 @@
                                         <th>DANH MỤC</th>
                                         <th>NHÃN HIỆU</th>
                                         <th>ẢNH</th>
-                                        <th>GIÁ NHẬP</th>
+                                    <!--     <th>GIÁ NHẬP</th> -->
                                         <th>GIÁ BÁN</th>
                                         <th>GIÁ KHUYẾN MÃI</th>
                                         <th>SỐ LƯỢNG</th>
                                         <th>BẢO HÀNH</th>
                                         <th>MÔ TẢ</th>
-                                        <th></th>
+                                        <th width="50"></th>
                                      <!--    <th>MÔ TẢ CHI TIẾT</th>--> 
                                     </tr>
                                 </thead>
@@ -57,15 +59,24 @@
                                     <tr class="odd gradeX" id="row_${listpca.productID}">
                                     
                                         <td width="100">${listpca.nameproduct}</td>
-                                        <td>${listpca.namecategory}</td>
-                                        <td>${listpca.namebrand}</td>
-                                        <td><img src="${listpca.imageproduct}" width="100" height="100"></td>   
-                                        <td>${listpca.originalprice}</td>
-                                        <td>${listpca.price}</td>
-                                        <td width="60">${listpca.promotionprice}</td>
-                                        <td width="60">${listpca.quantity}</td>
+                                        <td width="120">${listpca.namecategory}</td>
+                                        <td width="80">${listpca.namebrand}</td>
+                                        <td width="80"><img src="${listpca.imageproduct}" width="100" height="100"></td>   
+                                    <!--     <td width="80">${listpca.originalprice}</td> 
+                                        <td width="140">${listpca.price}</td>-->
+                                         <td width="100">
+                                         
+                                         <fmt:formatNumber type ="number" 
+        								 maxFractionDigits = "3" value="${listpca.price}" />
+                                         </td>
+                                        <td width="100">
+                                         
+                                         <fmt:formatNumber type ="number" 
+        								 maxFractionDigits = "3" value="${listpca.promotionprice}" />
+                                         </td>
+                                        <td width="50">${listpca.quantity}</td>
                                         <td width="60">${listpca.warranty}</td>
-                                        <td>${listpca.descriptionproduct}</td>
+                                        <td  width="140">${listpca.descriptionproduct}</td>
                                       <!--    <td>${product.contentproduct}</td>  -->
                                         <td>
                                         <a href="editProduct?productID=${listpca.productID}"><button type="button" class="btn btn-primary btn-xs" text-align="left">Sửa</button></a>

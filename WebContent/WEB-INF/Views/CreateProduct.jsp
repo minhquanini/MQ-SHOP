@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Nội Dung Giới Thiệu Sản Phẩm</label>
-                                            <textarea class="form-control" name="contentproduct" rows="4" placeholder="Nhập vào nội dung giới thiệu sản phẩm"></textarea>
+                                            <textarea class="form-control" name="contentproduct" rows="18" placeholder="Nhập vào nội dung giới thiệu sản phẩm"></textarea>
                                         </div>
                                         
                                         </div>

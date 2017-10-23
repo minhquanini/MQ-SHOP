@@ -6,7 +6,6 @@ public class CATEGORIES {
 	public int categoryID;
 	public String namecategory;
 	public String descriptioncategory;
-	public double displayorder;
 	public Date createddate;
 	public String createdby;
 	public Date updateddate;

@@ -43,7 +43,7 @@
                                         <th>NGƯỜI TẠO</th>
                                         <th>NGÀY CẬP NHẬT</th>
                                         <th>NGƯỜI CẬP NHẬT</th>
-                                        <th></th>
+                                        <th  width="90"></th>
                                     </tr>
                                 </thead>
                                 
@@ -54,10 +54,10 @@
                                     
                                         <td>${category.namecategory}</td>
                                         <td>${category.descriptioncategory}</td>
-                                        <td>${category.createddate}</td>
+                                        <td   width="100">${category.createddate}</td>
                                         <td>${category.createdby}</td>
                                         <td>${category.updateddate}</td>
-                                        <td>${category.updatedby}</td>
+                                        <td   width="80">${category.updatedby}</td>
                                         <td>
                                         <a href="editCategory?categoryID=${category.categoryID}"><button class="btn btn-primary btn-xs">Sửa</button></a>
                                         

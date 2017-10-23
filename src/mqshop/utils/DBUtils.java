@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.mysql.cj.api.jdbc.Statement;
 
@@ -18,6 +21,7 @@ import mqshop.beans.BRANDS;
 import mqshop.beans.CATEGORIES;
 import mqshop.beans.FEEDBACKS;
 import mqshop.beans.ORDERS;
+import mqshop.beans.ORDER_DETAILS;
 import mqshop.beans.PRODUCTS;
 import mqshop.beans.PRO_CA_BRA;
 import mqshop.beans.USERS;
@@ -491,8 +495,8 @@ public class DBUtils {
 			feedback.setEmailfb(rs.getString("emailfb"));
 			feedback.setContentfb(rs.getString("contentfb"));
 			feedback.setCreateddate(rs.getDate("createddate"));
-			feedback.setCreatedby(rs.getString("createdby"));
-			list.add(feedback);
+			//feedback.setCreatedby(rs.getString("createdby")); //Bỏ chỗ được phản hồi bời ai!!!
+			list.add(feedback); 
 		}
 		return list;
 	}
@@ -571,4 +575,187 @@ public class DBUtils {
 		}
 		return product.productID;
 	}
+	
+	// -----------------------------------------------------------------//
+	//Đây là truy vấn dành cho WebServices
+	
+	public static List<CATEGORIES> getCategory(Connection conn) throws SQLException{
+		String sql="SELECT * FROM CATEGORIES";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rs=pstm.executeQuery();
+		List<CATEGORIES> list=new ArrayList<CATEGORIES>();
+		while(rs.next()) {		
+			int categoryID=rs.getInt("categoryID");
+			String namecategory=rs.getString("namecategory");
+			String descriptioncategory=rs.getString("descriptioncategory");
+			Date createddate=rs.getDate("createddate");
+			String createdby=rs.getString("createdby");
+			Date updateddate=rs.getDate("updateddate");
+			String updatedby=rs.getString("updatedby");
+			CATEGORIES category=new CATEGORIES();
+			category.setCategoryID(categoryID);
+			category.setNamecategory(namecategory);
+			category.setDescriptioncategory(descriptioncategory);
+			category.setCreateddate(createddate);
+			category.setCreatedby(createdby);
+			category.setUpdateddate(updateddate);
+			category.setUpdatedby(updatedby);
+			list.add(category);
+		}
+		return list;
+	}
+	
+	
+	public static void insertUser(Connection conn,USERS user) throws SQLException {
+		String sql="INSERT INTO USERS(username,password,fullname,email,phone,birthday,address,isadmin) VALUES(?,?,?,?,?,?,?,?)";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1, user.getUsername());
+		pstm.setString(2, user.getPassword());
+		pstm.setString(3, user.getFullname());
+		pstm.setString(4, user.getEmail());
+		pstm.setString(5, user.getPhone());
+		//pstm.setDate(6, admin.getBirthday());
+		pstm.setDate(6, user.getBirthday());
+		pstm.setString(7, user.getAddress());
+		pstm.setInt(8, 0);
+		pstm.executeUpdate();
+	}
+	
+	public static List<PRODUCTS> getProductNewest(Connection conn) throws SQLException{
+		String sql="SELECT * FROM PRODUCTS ORDER BY productID DESC LIMIT 6";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rs=pstm.executeQuery();
+		List<PRODUCTS> listproduct=new ArrayList<PRODUCTS>();
+		while(rs.next()) {
+			PRODUCTS product=new PRODUCTS();
+			product.setProductID(rs.getInt("productID"));
+			product.setNameproduct(rs.getString("nameproduct"));
+			product.setCategoryID(rs.getInt("categoryID"));
+			product.setBrandID(rs.getInt("brandID"));
+			product.setImageproduct(rs.getString("imageproduct"));
+			product.setOriginalprice(rs.getDouble("originalprice"));
+			product.setPrice(rs.getDouble("price"));
+			product.setPromotionprice(rs.getDouble("promotionprice"));
+			product.setQuantity(rs.getInt("quantity"));
+			product.setWarranty(rs.getInt("warranty"));
+			product.setDescriptionproduct(rs.getString("descriptionproduct"));
+			product.setContentproduct(rs.getString("contentproduct"));
+			
+			listproduct.add(product);
+		}
+		return listproduct;
+	}
+	
+	public static List<PRODUCTS> getProductbyCategory(Connection conn,int categoryid) throws SQLException{
+		String sql="SELECT * FROM PRODUCTS WHERE categoryID=?";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, categoryid);
+		ResultSet rs=pstm.executeQuery();
+		List<PRODUCTS> listproduct=new ArrayList<PRODUCTS>();
+		while(rs.next()) {
+			PRODUCTS product=new PRODUCTS();
+			product.setProductID(rs.getInt("productID"));
+			product.setNameproduct(rs.getString("nameproduct"));
+			product.setCategoryID(rs.getInt("categoryID"));
+			product.setBrandID(rs.getInt("brandID"));
+			product.setImageproduct(rs.getString("imageproduct"));
+			product.setOriginalprice(rs.getDouble("originalprice"));
+			product.setPrice(rs.getDouble("price"));
+			product.setPromotionprice(rs.getDouble("promotionprice"));
+			product.setQuantity(rs.getInt("quantity"));
+			product.setWarranty(rs.getInt("warranty"));
+			product.setDescriptionproduct(rs.getString("descriptionproduct"));
+			product.setContentproduct(rs.getString("contentproduct"));
+			
+			listproduct.add(product);
+		}
+		return listproduct;
+	}
+	
+	public static List<PRODUCTS> getProductbyBrand(Connection conn,int brandid) throws SQLException{
+		String sql="SELECT * FROM PRODUCTS WHERE brandID=?";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, brandid);
+		ResultSet rs=pstm.executeQuery();
+		List<PRODUCTS> listproductbrand=new ArrayList<PRODUCTS>();
+		while(rs.next()) {
+			PRODUCTS product=new PRODUCTS();
+			product.setProductID(rs.getInt("productID"));
+			product.setNameproduct(rs.getString("nameproduct"));
+			product.setCategoryID(rs.getInt("categoryID"));
+			product.setBrandID(rs.getInt("brandID"));
+			product.setImageproduct(rs.getString("imageproduct"));
+			product.setOriginalprice(rs.getDouble("originalprice"));
+			product.setPrice(rs.getDouble("price"));
+			product.setPromotionprice(rs.getDouble("promotionprice"));
+			product.setQuantity(rs.getInt("quantity"));
+			product.setWarranty(rs.getInt("warranty"));
+			product.setDescriptionproduct(rs.getString("descriptionproduct"));
+			product.setContentproduct(rs.getString("contentproduct"));
+			
+			listproductbrand.add(product);
+		}
+		return listproductbrand;
+	}
+	
+	public static List<ATTRIBUTE_VALUES_MODEL> getValueAttribute(Connection conn,int productid) throws SQLException {
+		String sql= "SELECT a.attributeID,b.nameattribute,a.productID,a.value FROM ATTRIBUTE_VALUES a, ATTRIBUTES b WHERE a.attributeID=b.attributeID AND productID=?";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, productid);
+		ResultSet rs=pstm.executeQuery();
+		List<ATTRIBUTE_VALUES_MODEL> listattribute=new ArrayList<ATTRIBUTE_VALUES_MODEL>();
+		while(rs.next()) {
+			ATTRIBUTE_VALUES_MODEL avm=new ATTRIBUTE_VALUES_MODEL();
+			avm.setAttributeID(rs.getInt("attributeID"));
+			avm.setNameattribute(rs.getString("nameattribute"));
+			avm.setProductID(rs.getInt("productID"));
+			avm.setValue(rs.getString("value"));
+			listattribute.add(avm);
+		}
+		return listattribute;
+	}
+	
+	public static void insertOrder(Connection conn,ORDERS order) throws SQLException {
+		String sql="INSERT INTO ORDERS(customername,customeremail,customerphone,customeraddress,createddate,ordertotal,paymentmethod,orderstatus,userID) VALUES(?,?,?,?,?,?,?,?,?)";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1, order.getCustomername());
+		pstm.setString(2, order.getCustomeremail());
+		pstm.setString(3, order.getCustomerphone());
+		pstm.setString(4, order.getCustomeraddress());
+		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+		pstm.setDate(5, date);
+		pstm.setDouble(6, order.getOrdertotal());
+		pstm.setString(7, order.getPaymentmethod());
+		pstm.setInt(8, 0);
+		pstm.setInt(9, order.getUserID());
+		pstm.executeUpdate();
+		
+	}
+	
+	public static int getMaxOrderID(Connection conn) throws SQLException {
+		String sql="SELECT orderID FROM ORDERS ORDER BY orderID DESC LIMIT 1;";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rs=pstm.executeQuery();
+		ORDERS order = null;
+		while(rs.next()) {
+			order=new ORDERS();
+			order.setOrderID(rs.getInt("orderID"));
+		}
+		return order.orderID;
+	}
+	
+	
+	
+	public static void insertOrderDetail(Connection conn,ORDER_DETAILS orderdetail) throws SQLException {
+		String sql="INSERT INTO ORDER_DETAILS(orderID,productID,quantity,price) VALUES(?,?,?,?)";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, orderdetail.getOrderID());
+		pstm.setInt(2, orderdetail.getProductID());
+		pstm.setInt(3, orderdetail.getQuantity());
+		pstm.setDouble(4, orderdetail.getPrice());
+		
+		pstm.executeUpdate();
+		
+	}
+	
 }

@@ -9,7 +9,7 @@ public class connectDB {
 		Connection conn=null;
 		try {
 		Class.forName("com.mysql.jdbc.Driver");
-		String connectionURL="jdbc:mysql://localhost:3306/mqshop";
+		String connectionURL="jdbc:mysql://localhost:3306/mqshop?useSSL=false";
 		conn=DriverManager.getConnection(connectionURL,"root","admin");
 		}
 		catch(Exception e)

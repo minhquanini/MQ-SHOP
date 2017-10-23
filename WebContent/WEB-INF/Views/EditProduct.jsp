@@ -84,7 +84,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Nội Dung Giới Thiệu Sản Phẩm</label>
-                                            <textarea class="form-control" name="contentproduct" rows="4" >${product.contentproduct}</textarea>
+                                            <textarea class="form-control" name="contentproduct" rows="18" >${product.contentproduct}</textarea>
                                         </div>
                                         
                                         </div>
