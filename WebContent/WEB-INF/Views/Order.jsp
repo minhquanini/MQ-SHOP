@@ -30,8 +30,7 @@
                                         <th>TÊN KHÁCH HÀNG</th>
                                         <th>EMAIL KHÁCH HÀNG</th>
                                         <th>SĐT KHÁCH HÀNG</th>
-                                        <th>ĐỊA CHỈ KHÁCH HÀNG</th>
-                                        <th>LỜI NHẮN KHÁCH HÀNG</th>
+                                        <th>ĐỊA CHỈ KHÁCH HÀNG</th>                                   
                                         <th>TÌNH TRẠNG ĐƠN HÀNG</th>
                                         <th>CHI TIẾT ĐƠN HÀNG</th>
                                     </tr>
@@ -46,7 +45,6 @@
                                         <td>${listorder.customeremail}</td>
                                         <td>${listorder.customerphone}</td>
                                         <td>${listorder.customeraddress}</td>
-                                        <td>${listorder.customermessage}</td>
                                         <td>${listorder.orderstatus}</td>
                                         <td>
                                         <a href="orderDetail?orderID=${listorder.orderID}"><button class="btn btn-primary btn-xs">Xem chi tiết</button></a>                        

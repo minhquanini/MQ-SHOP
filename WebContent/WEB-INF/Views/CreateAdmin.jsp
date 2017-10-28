@@ -58,7 +58,7 @@
                                         <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
                                         
                                     </form>
-                                    <a href="/MQ-SHOP/accout"><button class="btn btn-default">Hủy bỏ</button></a>
+                                    <a href="/MQ-SHOP/account"><button class="btn btn-default">Hủy bỏ</button></a>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                                 

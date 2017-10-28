@@ -44,6 +44,7 @@ import com.stripe.net.RequestOptions;
 import mqshop.beans.ATTRIBUTE_VALUES_MODEL;
 import mqshop.beans.BRANDS;
 import mqshop.beans.CATEGORIES;
+import mqshop.beans.FEEDBACKS;
 import mqshop.beans.ORDERS;
 import mqshop.beans.ORDER_DETAILS;
 import mqshop.beans.PRODUCTS;
@@ -150,7 +151,7 @@ public class Test extends HttpServlet{
 	@Produces({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
 	public int addOrder(@FormParam("customername")String customername, @FormParam("customeremail")String customeremail,
 			@FormParam("customerphone")String customerphone, @FormParam("customeraddress")String customeraddress,
-			@FormParam("total")Double total,@FormParam("paymentmethod")String paymentmethod) throws ClassNotFoundException, IOException, SQLException{
+			@FormParam("total")Double total,@FormParam("paymentmethod")String paymentmethod,@FormParam("userID")int userid) throws ClassNotFoundException, IOException, SQLException{
 			Connection conn=connectDB.getConnection();
 		//response.setHeader("Content-Type", "application/json; charset=utf-8");
 		//List<ATTRIBUTE_VALUES_MODEL> listatt=DBUtils.getValueAttribute(conn, productid);
@@ -162,7 +163,7 @@ public class Test extends HttpServlet{
 			order.setCustomeraddress(customeraddress);
 			order.setOrdertotal(total);
 			order.setPaymentmethod(paymentmethod);
-			order.setUserID(4);
+			order.setUserID(userid);
 			
 			DBUtils.insertOrder(conn, order);
 			
@@ -191,6 +192,9 @@ public class Test extends HttpServlet{
 			
 			try {
 				DBUtils.insertOrderDetail(conn, detail);
+				int q=DBUtils.getQuantityProduct(conn, detail.getProductID());
+				DBUtils.updateQuantityProduct(conn,detail.getProductID(), q-detail.getQuantity());
+				//DBUtils.deleteProductnullQuantity(conn);
 			} catch (SQLException e) {
 			
 				e.printStackTrace();
@@ -208,7 +212,7 @@ public class Test extends HttpServlet{
 		Stripe.apiKey="sk_test_36ZW1MAORn7GSmdRVro3hJZC";
 		int success=1;
 		System.out.println(token);
-		System.out.println(total);
+		//System.out.println(total);
 		
 		//RequestOptions requestOptions = RequestOptions.builder().setApiKey("sk_test_36ZW1MAORn7GSmdRVro3hJZC").build();
 
@@ -218,16 +222,22 @@ public class Test extends HttpServlet{
 		
 		Map<String, Object> params=new HashMap<String,Object>();
 		//params.put("email", "minhquanmessi@gmail.com");
+		//params.put("amount", Integer.parseInt(total));
+		//params.put("currency", "usd");
+		//params.put("customer", customer.getId());
+		//params.put("description", "Test charge");
 		params.put("source",token);
 		Customer customer = Customer.create(params);
-		
+		System.out.println("1");
 		
 		Map<String, Object> chargeParams = new HashMap<String, Object>();
 		chargeParams.put("amount", Integer.parseInt(total));
 		chargeParams.put("currency", "usd");
 		chargeParams.put("customer", customer.getId());
 		chargeParams.put("description", "Test charge");
+		System.out.println("2");
 		Charge charge = Charge.create(chargeParams);
+		System.out.println("3");
 		}
 		catch (Exception e) {
 			success=0;
@@ -237,5 +247,59 @@ public class Test extends HttpServlet{
 		return success;
 		
 	}
+	
+	
+	@POST
+	@Path("/feedback")
+	@Produces({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
+	public int AddFeedback(@FormParam("namefb")String namefb,@FormParam("emailfb")String emailfb,@FormParam("contentfb")String contentfb) throws ClassNotFoundException, IOException {
+		int success=1;
+		Connection conn=connectDB.getConnection();
+		FEEDBACKS feedback=new FEEDBACKS();
+		feedback.setNamefb(namefb);
+		feedback.setEmailfb(emailfb);
+		feedback.setContentfb(contentfb);
+		
+		try {
+			DBUtils.insertFeedback(conn, feedback);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			success=0;
+		}
+		return success;
+	}
+	
+	@POST
+	@Path("/login")
+	@Produces({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
+	public USERS checkLogin(@FormParam("username")String username,@FormParam("password")String password) throws ClassNotFoundException, IOException {
+		int success=1;
+		Connection conn=connectDB.getConnection();
+		USERS user=null;
+		try {
+			user=DBUtils.findUserforClient(conn, username, password);
+			if(user==null) {
+				success=0;
+			}
+		} catch (SQLException e) {
+			success=0;
+			e.printStackTrace();
+		}
+		
+		if(success==1)
+		{
+			//System.out.println("Successfully");
+			return user;
+		}
+		else
+		{
+			//System.out.println("Unsuccessfully");
+		return null;
+		}
+		
+	}
+	
+	
 	
 }

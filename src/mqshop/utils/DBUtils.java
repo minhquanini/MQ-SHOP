@@ -30,7 +30,7 @@ import servlet.conn.connectDB;
 public class DBUtils {
 	//Sử dụng cho đăng nhập
 	public static USERS findUser(Connection conn,String username,String password) throws SQLException {
-		String sql="SELECT * FROM USERS WHERE username=? and password=?";
+		String sql="SELECT * FROM USERS WHERE username=? and password=? and isadmin=1";
 		PreparedStatement pstm=conn.prepareStatement(sql);
 		pstm.setString(1, username);
 		pstm.setString(2, password);
@@ -468,11 +468,9 @@ public class DBUtils {
 			order.setOrderID(rs.getInt("orderID"));
 			order.setCustomername(rs.getString("customername"));
 			order.setCustomeremail(rs.getString("customeremail"));
-			order.setCustomerphone(rs.getString("phone"));
+			order.setCustomerphone(rs.getString("customerphone"));
 			order.setCustomeraddress(rs.getString("customeraddress"));
-			order.setCustomermessage(rs.getString("customermessage"));
 			order.setCreateddate(rs.getDate("createddate"));
-			order.setCreatedby(rs.getString("createdby"));
 			order.setPaymentmethod(rs.getString("paymentmethod"));
 			order.setOrderstatus(rs.getInt("orderstatus"));
 			order.setOrdertotal(rs.getDouble("ordertotal"));
@@ -756,6 +754,75 @@ public class DBUtils {
 		
 		pstm.executeUpdate();
 		
+	}
+	
+	public static void updateQuantityProduct(Connection conn,int productid, int quantity) throws SQLException {
+		String sql="UPDATE PRODUCTS SET quantity=? WHERE productID=?";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		//PRODUCTS product=new PRODUCTS();
+		pstm.setInt(1, quantity);
+		pstm.setInt(2, productid);
+		pstm.executeUpdate();
+	}
+	
+	public static int getQuantityProduct(Connection conn, int productid) throws SQLException {
+		String sql="SELECT quantity FROM PRODUCTS WHERE productID=?";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, productid);
+		ResultSet rs=pstm.executeQuery();
+		PRODUCTS product = null;
+		while(rs.next()) {
+			product=new PRODUCTS();
+			product.setQuantity(rs.getInt("quantity"));
+		}
+		return product.quantity;
+	}
+	/*
+	public static void deleteProductnullQuantity(Connection conn) throws SQLException {
+		String sql="DELETE FROM PRODUCTS WHERE quantity=0";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.executeUpdate();
+		
+	}
+	*/
+	
+	public static void insertFeedback(Connection conn, FEEDBACKS feedback) throws SQLException {
+		String sql="INSERT INTO FEEDBACKS(namefb,emailfb,contentfb,createddate) VALUES(?,?,?,?)";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1, feedback.getNamefb());
+		pstm.setString(2, feedback.getEmailfb());
+		pstm.setString(3, feedback.getContentfb());
+		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+		pstm.setDate(4, date);
+		pstm.executeUpdate();
+	}
+	
+	public static USERS findUserforClient(Connection conn,String username,String password) throws SQLException {
+		String sql="SELECT * FROM USERS WHERE username=? and password=? and isadmin=0";
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1, username);
+		pstm.setString(2, password);
+		ResultSet rs=pstm.executeQuery();		
+		while(rs.next()) {	
+			int userID=Integer.parseInt(rs.getString("userID"));
+			String fullname=rs.getString("fullname");
+			String email=rs.getString("email");
+			String phone=rs.getString("phone");
+			Date birthday=rs.getDate("birthday");
+			String address=rs.getString("address");
+			USERS user=new USERS();			
+			user.setUserID(userID);
+			user.setUsername(username);
+			user.setPassword(password);
+			user.setFullname(fullname);
+			user.setEmail(email);
+			user.setPhone(phone);
+			user.setBirthday(birthday);
+			user.setAddress(address);
+			
+			return user;
+		}
+		return null;
 	}
 	
 }

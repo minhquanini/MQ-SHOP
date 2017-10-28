@@ -8,7 +8,6 @@ public class FEEDBACKS {
 	public String emailfb;
 	public String contentfb;
 	public Date createddate;
-	public String createdby;
 	
 	public FEEDBACKS() {
 	}
@@ -43,10 +42,5 @@ public class FEEDBACKS {
 	public Date getCreateddate() {
 		return createddate;
 	}
-	public void setCreatedby(String createdby) {
-		this.createdby = createdby;
-	}
-	public String getCreatedby() {
-		return createdby;
-	}
+
 }
